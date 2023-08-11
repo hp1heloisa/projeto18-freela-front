@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import Welcome from "./Welcome";
+import SideBar from "./SideBar";
 
 
 export default function NavBar() {
@@ -10,7 +11,7 @@ export default function NavBar() {
 
     return(
         <GeneralContainer>
-            <ion-icon name="reorder-three" ></ion-icon>
+            <SideBar />
             <Logo />
             <SearchContainer>
                 <input placeholder="Pesquisar" type="text"/> 

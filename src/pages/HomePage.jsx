@@ -58,7 +58,7 @@ const ContainerGeral = styled.div`
 
 const AnimalsContainer = styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: left;
     flex-wrap: wrap;
     gap: 20px;
     width: calc(100% - 300px);

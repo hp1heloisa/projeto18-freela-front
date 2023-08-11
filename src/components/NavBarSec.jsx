@@ -24,6 +24,7 @@ const GeneralContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     position: fixed;
+    z-index: 10;
     >ion-icon{
         color: #693606;
         font-size: 50px;

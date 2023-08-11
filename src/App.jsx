@@ -4,7 +4,8 @@ import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import ModelPage from "./pages/ModelPage";
-import UserPage from "./components/UserPage";
+import UserPage from "./pages/UserPage";
+import CreateNewModel from "./pages/CreateNewModel";
 
 export default function App() {
 
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/models/:id" element={<ModelPage />} />
             <Route path="/profile" element={<UserPage />} />
+            <Route path="/creation" element={<CreateNewModel />} />
           </Routes>
         </BrowserRouter>
     </PagesContainer>
@@ -26,6 +28,7 @@ export default function App() {
 const PagesContainer = styled.main`
   width: 100vw;
   background-color: #D5B77A;
+  min-height: 100vh;
 `
 
 
