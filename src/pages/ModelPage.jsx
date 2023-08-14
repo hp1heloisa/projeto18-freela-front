@@ -43,7 +43,7 @@ export default function ModelPage() {
                             <h1>{animal.name}</h1>
                             <img src={mainPhoto} alt='mainPhoto' />
                             <div className="gallery">
-                                {animal.animalPhotos.map(photo => <img src={photo.urlImage} alt='photo-from-gallery' />)}
+                                {animal.animalPhotos.map(photo => <img onClick={() => setMainPhoto(photo.urlImage)} src={photo.urlImage} alt='photo-from-gallery' />)}
                             </div>
                         </ContainerImages>
                         <ContainerInformation>
@@ -77,9 +77,10 @@ const ContainerGeral = styled.div`
     align-items: center;
     padding-top: 100px;
     padding-bottom: 100px;
+    font-family: 'Raleway';
     >div{
         width: calc(100% - 300px);
-        height: 550px;
+        height: 650px;
         border-radius: 4px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         display: flex;
@@ -100,6 +101,7 @@ const ContainerImages = styled.div`
     }
     >img{
        width: 500px;
+       height: 400px;
        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25); 
     }
     .gallery{

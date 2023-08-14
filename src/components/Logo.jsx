@@ -7,7 +7,7 @@ export default function Logo() {
     const navigate = useNavigate();
 
     return(
-            <LogoContainer onClick={() => navigate('/')}>
+            <LogoContainer onClick={() => navigate('/')} className="logoDiv">
                 <img src={logo} alt="dog park" />
                 <div>
                     <p>Dog Models</p>

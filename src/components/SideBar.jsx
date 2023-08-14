@@ -4,6 +4,7 @@ import Welcome from "./Welcome";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Logo from "./Logo";
+import dog from "../assets/dog-icon.png";
 
 export default function SideBar() {
     const [menu, setMenu] = useState(false);
@@ -54,10 +55,24 @@ export default function SideBar() {
         }
     }
 
-    function goCategory(category) {
+    function goCategory(breed) {
         showMenu();
-        navigate(category);
+        navigate(breed);
         window.location.reload();
+    }
+
+    function ShowBreed(){
+        if (breeds){
+            return(
+                <>
+                    {breeds.map(breed => 
+                        <div onClick={() => goCategory(`/breeds/${breed.id}`)}>
+                            <ion-icon name="paw"></ion-icon> {breed.breed}
+                        </div>
+                    )}
+                </>
+            )
+        }
     }
 
     if (menu){
@@ -68,19 +83,11 @@ export default function SideBar() {
                     <div>
                         <Welcome />
                             <div onClick={changeState}> 
-                                <ion-icon name="cube"></ion-icon>
+                                <img src={dog} alt="" className="dog"/>
                                 <p>Raças</p>
                             </div>
                             <div className="categorias">
-                                    <div onClick={() => goCategory('/category/Consoles')}><ion-icon name="caret-forward-sharp"></ion-icon> Console</div>
-                                    <div onClick={() => goCategory('/category/Fones')}><ion-icon name="caret-forward-sharp"></ion-icon> Fone</div>
-                                    <div onClick={() => goCategory('/category/Celulares')}><ion-icon name="caret-forward-sharp"></ion-icon> Celular</div>
-                                    <div onClick={() => goCategory('/category/Cadeiras-Gamer')}><ion-icon name="caret-forward-sharp"></ion-icon> Cadeira Gamer</div>
-                                    <div onClick={() => goCategory('/category/Notebooks')}><ion-icon name="caret-forward-sharp"></ion-icon> Notebook</div>
-                            </div>
-                            <div  onClick={() => navigate('/check/carrinho')}>
-                                <ion-icon name="cart"></ion-icon>
-                                <p>Carrinho</p>
+                                    <ShowBreed />
                             </div>
                     </div>
                     <button onClick={clickButton}>{(data) ? 'LogOut' : 'LogIn'}</button>
@@ -96,6 +103,7 @@ export default function SideBar() {
 }
 
 const StyledMenu = styled.div`
+font-family: 'Raleway';
 position: absolute;
 top: 0;
 left: 0;
@@ -106,7 +114,7 @@ background: rgba(0, 0, 0, 0.6);
 
 .sair{
     position: absolute;
-    left: 21%;
+    left: 25%;
     top: 10px;
     color: white;
     font-size: 30px;
@@ -115,7 +123,9 @@ background: rgba(0, 0, 0, 0.6);
 }
 `
 const DivMenu = styled.div`
-    width: 20%;
+    padding-bottom: 500px;
+    overflow: scroll;
+    width: 24%;
     height: 100%;
     background-color: #F2C72E;
     position: absolute;
@@ -130,14 +140,18 @@ const DivMenu = styled.div`
     font-size: 15px;
     color: #693606;
     font-family: "Poppins";
+    .dog{
+        width: 30px;
+    }
     p {
         font-weight: 600;
     }
     div{
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 5px;
         div{
+            background-color:
             display: flex;
             flex-direction: row;
             gap: 10px;
@@ -165,12 +179,16 @@ const DivMenu = styled.div`
                 align-items: center;
                 gap: 5px;
                 ion-icon{
-                    font-size: 20px;
+                    font-size: 15px;
                 }
                 :hover{
                     text-decoration: underline;
                 }
             }
+        }
+        .logoDiv{
+            display: flex:
+            flex-direction: row;
         }
 
     }

@@ -6,11 +6,12 @@ import SignInPage from "./pages/SignInPage";
 import ModelPage from "./pages/ModelPage";
 import UserPage from "./pages/UserPage";
 import CreateNewModel from "./pages/CreateNewModel";
+import BreedPage from "./pages/BreedPage";
+import SearchPage from "./pages/SearchPage";
 
 export default function App() {
 
   return (
-    <PagesContainer>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -19,16 +20,13 @@ export default function App() {
             <Route path="/models/:id" element={<ModelPage />} />
             <Route path="/profile" element={<UserPage />} />
             <Route path="/creation" element={<CreateNewModel />} />
+            <Route path="/breeds/:id" element={<BreedPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            
           </Routes>
         </BrowserRouter>
-    </PagesContainer>
   )
 }
 
-const PagesContainer = styled.main`
-  width: 100vw;
-  background-color: #D5B77A;
-  min-height: 100vh;
-`
 
 

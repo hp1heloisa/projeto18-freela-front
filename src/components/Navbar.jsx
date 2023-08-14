@@ -3,10 +3,17 @@ import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import Welcome from "./Welcome";
 import SideBar from "./SideBar";
+import { useState } from "react";
 
 
 export default function NavBar() {
     const navigate = useNavigate();
+    let [pesquisa, setPesquisa] = useState('');
+
+    function pesquisar() {
+        navigate('/search', {state: {pesquisa}});
+        window.location.reload();
+    }
 
 
     return(
@@ -14,8 +21,8 @@ export default function NavBar() {
             <SideBar />
             <Logo />
             <SearchContainer>
-                <input placeholder="Pesquisar" type="text"/> 
-                <ion-icon name="paw"></ion-icon>
+                <input placeholder="Pesquisar" type="text" value={pesquisa} onChange={e => setPesquisa(e.target.value)}/> 
+                <ion-icon name="paw" onClick={pesquisar}></ion-icon>
             </SearchContainer>
             <Welcome />
         </GeneralContainer>

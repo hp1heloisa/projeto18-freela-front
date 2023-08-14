@@ -1,27 +1,26 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import NavBar from "../components/Navbar";
 
-export default function HomePage() {
+export default function BreedPage() {
     const navigate = useNavigate();
+    const { id } = useParams();
     let [animals, setAnimals] = useState('');
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_URL}/models`)
+        axios.get(`${import.meta.env.VITE_API_URL}/models/breed/${id}`)
              .then(res => setAnimals(res.data))
              .catch(erro => alert(erro.response.data));
     }, []);
-
+    
+    
     console.log(animals);
     if (animals == ''){
         return(
             <>
                 <NavBar />
                 <ContainerGeral>
-                        <DivTitulo>
-                            Nossos Audelos:
-                        </DivTitulo>
                     <AnimalsContainer>
                         Carregando...
                     </AnimalsContainer>
@@ -34,9 +33,6 @@ export default function HomePage() {
             <>
                 <NavBar />
                 <ContainerGeral>
-                        <DivTitulo>
-                            Nossos Audelos:
-                        </DivTitulo>
                     <AnimalsContainer>
                         {animals.map(animal => 
                             <AnimalContainer onClick={() => navigate(`/models/${animal.id}`)}>
@@ -56,19 +52,15 @@ export default function HomePage() {
 }
 
 const ContainerGeral = styled.div`
-    font-family: 'Raleway';
     padding-top: 100px;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     padding-bottom: 100px;
-    padding-left: 30px;
 `
 
 const AnimalsContainer = styled.div`
     display: flex;
     justify-content: left;
-    margin-left: auto;
-    margin-right: auto;
     flex-wrap: wrap;
     gap: 20px;
     width: calc(100% - 300px);
@@ -106,10 +98,4 @@ const AnimalContainer = styled.div`
         margin-left: 10px;
 
     }
-`
-const DivTitulo = styled.div`
-        color: #693606;
-        font-size: 40px;
-        font-weight: 600;
-        margin-bottom: 20px;
 `

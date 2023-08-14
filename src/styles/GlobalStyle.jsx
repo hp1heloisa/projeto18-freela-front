@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     html, body {
-        background-color: #f2f3f4;
+        background-color: #D5B77A;
     }
 
     input{

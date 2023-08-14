@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import NavBarSec from "../components/NavBarSec";
 import border from '../assets/border.png';
@@ -11,8 +11,26 @@ export default function CreateNewModel() {
     let [breedId, setBreedId] = useState('');
     let [mainPhoto, setMainPhoto] = useState('');
     let [photos, setPhotos] = useState([]);
+    let [breeds, setBreeds] = useState('');
+    let [show, setShow] = useState(false);
     const data = JSON.parse(localStorage.getItem("dataDogModels"));
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_API_URL}/breeds`)
+             .then(res => setBreeds(res.data))
+             .catch(erro => console.log(erro));
+
+    }, []);
+
+    function showBreeds() {
+        if (show){
+            setShow(false);
+        } else{
+            setShow(true);
+        }
+    }
 
     function addMain(){
        let main = prompt('Digite a URL da foto: ');
@@ -72,6 +90,35 @@ export default function CreateNewModel() {
             </>
         )
     }
+
+    function ShowBreed(){
+        if (breeds && show){
+            return(
+                <div className="breeds">
+                    {breeds.map(breed => {
+                         if (breedId == breed.id){
+                            return(
+                                <div onClick={() => setBreedId(breed.id)} >
+                                    <span className="pata"><ion-icon name="paw"></ion-icon> {breed.breed}</span>
+                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                </div>
+                            )
+                        } else {
+                            return(
+                                <div onClick={() => setBreedId(breed.id)}>
+                                    <span className="pata"><ion-icon name="paw"></ion-icon> {breed.breed}</span>
+                                </div>
+                            )
+                        }
+                    }
+                    )}
+                </div>
+            )
+        }
+    }
+
+    console.log(breedId);
+
     return(
         <>
             <NavBarSec />
@@ -87,8 +134,14 @@ export default function CreateNewModel() {
                     <form onSubmit={e => createModel(e)}>
                         <img src={border} alt="" />
                         <input placeholder="Nome do Audelo" type="text" value={name} onChange={e => setName(e.target.value)} required/>
-                        <input placeholder="Raça" type="text" value={breedId} onChange={e => setBreedId(e.target.value)} required/>
-                        <input placeholder="Descrição" type="text" value={description} onChange={e => setDescription(e.target.value)} required/>
+                        <ContainerBreeds>
+                            <div className="title">
+                                <span>Raças</span>
+                                <ion-icon name="add-circle-outline" onClick={showBreeds}></ion-icon>
+                            </div>
+                            <ShowBreed />
+                        </ContainerBreeds>
+                        <textarea placeholder="Descrição" type="text" cols="55" rows="5" value={description} onChange={e => setDescription(e.target.value)} required/>
                         <button type="submit">Adicionar</button>
                     </form>
                 </EditContainer>
@@ -99,6 +152,7 @@ export default function CreateNewModel() {
 }
 
 const ContainerGeral = styled.div`
+    font-family: 'Raleway';
     padding-top: 140px;
     padding-bottom: 100px;
     display: flex;
@@ -141,7 +195,7 @@ const ContainerImages = styled.div`
     }
     > img{
         border-radius: 4px;
-        width: 400px;
+        width: 500px;
         cursor: pointer;
 
     }
@@ -150,12 +204,11 @@ const ContainerImages = styled.div`
         display: flex;
         flex: 1;
         gap: 10px;
-        width: 400px;
-        height: 100px;
+        width: 500px;
+        max-height: 100px;
         overflow: scroll;
         border: 1px solid #693606;
         border-radius: 4px;
-        /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);  */
         padding: 10px;
         img{
             width: 100px;
@@ -195,5 +248,63 @@ const EditContainer = styled.div`
     } 
     button{
         width: 400px;
+    }
+    textarea{
+        box-sizing: border-box
+        font-size: 20px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid #ccc;
+        padding: 15px;
+        width: 400px;
+        :focus {
+            border: 2px solid #ffb6b6;
+            margin: 0px;
+        }
+    }
+`
+
+const ContainerBreeds = styled.div`
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+    max-height: 200px;
+    font-size: 20px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 1px;
+    background-color: white;
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .breeds{
+        display: flex; 
+        flex-direction: column;
+        overflow: scroll;
+        margin-bottom: 10px;
+        >div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+    ion-icon{
+        font-size: 30px;
+        cursor: pointer;
+    }
+    .pata{
+        ion-icon{
+            font-size:20px;
+        }
+    }
+    :focus {
+        border: 2px solid #393232;
+        margin: 0px;
     }
 `

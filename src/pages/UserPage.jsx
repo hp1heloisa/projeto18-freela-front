@@ -7,22 +7,44 @@ import NavBar from "../components/Navbar";
 export default function HomePage() {
     const navigate = useNavigate();
     let [animals, setAnimals] = useState('');
+    let [render, setRender] = useState('');
+    const data = JSON.parse(localStorage.getItem("dataDogModels"));
+
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem("dataDogModels"));
         axios.get(`${import.meta.env.VITE_API_URL}/models/mine`,  {headers: {Authorization: `Bearer ${data.token}`}})
              .then(res => setAnimals(res.data))
              .catch(erro => alert(erro.response.data));
-    }, []);
+    }, [render]);
 
     console.log(animals);
+
+    function editAnimal(id, active) {
+        let ok;
+        if (active) {
+            ok = confirm('Gostaria de desativar esse modelo?');
+        } else{
+            ok = confirm('Gostaria de ativar esse modelo?');
+        }
+        if (ok) {
+            axios.put(`${import.meta.env.VITE_API_URL}/models/${id}/activation`, null, {headers: {Authorization: `Bearer ${data.token}`}})
+             .then(res => setRender(res))
+             .catch(erro => alert(erro.response.data));
+        }
+    }
+
     if (animals == ''){
         return(
             <>
                 <NavBar />
                 <ContainerGeral>
-                    <AnimalsContainer>
-                        Carregando...
-                    </AnimalsContainer>
+                        <div>
+                            <h1>Seus modelos: </h1>
+                            <ion-icon name="add-circle-outline" onClick={() => navigate(`/creation`)}></ion-icon>
+                            <AnimalsContainer>
+                                Carregando...
+                            </AnimalsContainer>
+                        </div>
                 </ContainerGeral>
             </>
         )
@@ -37,12 +59,13 @@ export default function HomePage() {
                         <ion-icon name="add-circle-outline" onClick={() => navigate(`/creation`)}></ion-icon>
                         <AnimalsContainer>
                             {animals.map(animal => 
-                                <AnimalContainer onClick={() => navigate(`/models/${animal.id}`)}>
-                                    <div>
+                                <AnimalContainer active={animal.active}>
+                                    <div onClick={() => navigate(`/models/${animal.id}`)} >
                                         <img src={animal.mainImage} alt='animal-photo' />
                                         <h1>{animal.name}</h1>
                                     </div>
-                                    <h2>{animal.description}</h2>
+                                    <ion-icon name="create-outline" onClick={() => editAnimal(animal.id, animal.active)} ></ion-icon>
+                                    <h2 onClick={() => navigate(`/models/${animal.id}`)} >{animal.description}</h2>
 
                                 </AnimalContainer>
                             )}
@@ -55,6 +78,7 @@ export default function HomePage() {
 }
 
 const ContainerGeral = styled.div`
+    font-family: 'Raleway';
     padding-top: 100px;
     display: flex;
     justify-content: center;
@@ -106,6 +130,8 @@ const AnimalContainer = styled.div`
     cursor: pointer;
     background-color: white;
     width: 150px;
+    opacity: ${ (props) => (!props.active) ? 0.5 : 1};
+    position: relative;
     img{
         width: 150px;
         height: 150px;
@@ -127,5 +153,12 @@ const AnimalContainer = styled.div`
     h2{
         margin-left: 5px;
         font-size: 15px;
+    }
+    ion-icon{
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        font-size: 20px;
+        color: white;
     }
 `
